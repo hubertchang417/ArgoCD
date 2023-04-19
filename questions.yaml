@@ -1,0 +1,320 @@
+
+questions:
+## Global Configs - Image
+- variable: global.image.imagePullPolicy
+  default: IfNotPresent
+  label: App Image Repository PullPolicy
+  group: "Image"
+  description: "Specify App Image Repository PullPolicy to All Argo CD deployments."
+  required: true
+  type: enum
+  options:
+  - "IfNotPresent"
+  - "Always"
+  - "Never"
+
+- variable: global.image.tag
+  label: App Image Repository Tag
+  group: "Image"
+  description: "Specify App Image Repository Tag."
+  required: true
+  type: enum
+  options:
+  - "v2.6.7"
+
+## Argo CD Controller  
+- variable: controller.replicas
+  label: Number of Application Controller Pods
+  group: "Argo CD Controller"
+  description: "The Number of Application Controller Pods to Run."
+  required: true
+  type: int
+
+- variable: controller.resources.limits.cpu
+  type: string
+  label: Controller CPU Upper Limit
+  description: "Set Controller CPU Upper Limit."
+  group: "Argo CD Controller"
+
+- variable: controller.resources.limits.memory
+  type: string
+  label: Controller Memory Upper Limit
+  description: "Set Controller Memory Upper Limit."
+  group: "Argo CD Controller"
+
+- variable: controller.resources.requests.cpu
+  type: string
+  label: Controller CPU Minimum Require
+  description: "Set Controller CPU minimum requirement."
+  group: "Argo CD Controller"
+- variable: controller.resources.requests.memory
+  type: string
+  label: Controller Memory Minimum Require
+  description: "Set Controller Memory minimum requirement."
+  group: "Argo CD Controller"
+
+## Argo CD ApplicationSet 
+- variable: applicationSet.replicaCount
+  label: Number of ApplicationSet Controller Pods
+  group: "Argo CD ApplicationSet"
+  description: "The number of ApplicationSet controller pods to run."
+  required: true
+  type: int
+
+- variable: applicationSet.resources.limits.cpu
+  type: string
+  label: ApplicationSet CPU Upper Limit
+  description: "Set ApplicationSet Controller CPU Upper Limit."
+  group: "Argo CD ApplicationSet"
+
+- variable: applicationSet.resources.limits.memory
+  type: string
+  label: ApplicationSet Memory Upper Limit
+  description: "Set ApplicationSet Controller Memory Upper Limit."
+  group: "Argo CD ApplicationSet"
+
+- variable: applicationSet.resources.requests.cpu
+  type: string
+  label: ApplicationSet CPU Minimum Require
+  description: "Set ApplicationSet Controller CPU minimum requirement."
+  group: "Argo CD ApplicationSet"
+- variable: applicationSet.resources.requests.memory
+  type: string
+  label: ApplicationSet Memory Minimum Require
+  description: "Set ApplicationSet Controller Memory minimum requirement."
+  group: "Argo CD ApplicationSet"
+### Dex Server
+#- variable: dex.image.tag
+#  label: Dex Image Repository Tag
+#  group: "Dex"
+#  description: "Specify Dex Image Repository Tag."
+#  required: true
+#  type: enum
+#  options:
+#  - "v2.35.3"
+#
+#- variable: dex.resources.limits.cpu
+#  type: string
+#  label: Dex CPU Upper Limit
+#  description: "Set Dex CPU Upper Limit."
+#  group: "Dex"
+#
+#- variable: dex.resources.limits.memory
+#  type: string
+#  label: Dex Memory Upper Limit
+#  description: "Set Dex Memory Upper Limit."
+#  group: "Dex"
+#
+#- variable: dex.resources.requests.cpu
+#  type: string
+#  label: Dex CPU Minimum Require
+#  description: "Set Dex CPU minimum requirement."
+#  group: "Dex"
+#
+#- variable: dex.resources.requests.memory
+#  type: string
+#  label: Dex Memory Minimum Require
+#  description: "Set Dex Memory minimum requirement."
+#  group: "Dex"
+
+### Redis
+#- variable: redis.image.tag
+#  label: Redis Image Repository Tag
+#  group: "Redis"
+#  description: "Specify Redis Image Repository Tag."
+#  required: true
+#  type: enum
+#  options:
+#  - "7.0.7-alpine"
+#
+#- variable: redis.resources.limits.cpu
+#  type: string
+#  label: Redis CPU Upper Limit
+#  description: "Set Redis CPU Upper Limit."
+#  group: "Redis"
+#
+#- variable: redis.resources.limits.memory
+#  type: string
+#  label: Redis Memory Upper Limit
+#  description: "Set Redis Memory Upper Limit."
+#  group: "Redis"
+#
+#- variable: redis.resources.requests.cpu
+#  type: string
+#  label: Redis CPU Minimum Require
+#  description: "Set Redis CPU minimum requirement."
+#  group: "Redis"
+#
+#- variable: redis.resources.requests.memory
+#  type: string
+#  label: Redis Memory Minimum Require
+#  description: "Set Redis Memory minimum requirement."
+#  group: "Redis"
+#
+
+## Server
+- variable: server.replicas
+  label: Number of Argo Server Pods
+  group: "Argo CD Server"
+  description: "The Number of Argo Server Pods to Run."
+  required: true
+  type: int
+
+- variable: server.resources.limits.cpu
+  type: string
+  label: Server CPU Upper Limit
+  description: "Set Server CPU Upper Limit."
+  group: "Argo CD Server"
+
+- variable: server.resources.limits.memory
+  type: string
+  label: Server Memory Upper Limit
+  description: "Set Server Memory Upper Limit."
+  group: "Argo CD Server"
+
+- variable: server.resources.requests.cpu
+  type: string
+  label: Server CPU Minimum Require
+  description: "Set Server CPU minimum requirement."
+  group: "Argo CD Server"
+
+- variable: server.resources.requests.memory
+  type: string
+  label: Server Memory Minimum Require
+  description: "Set Server Memory minimum requirement."
+  group: "Argo CD Server"
+
+## Server - service
+- variable: server.service.type
+  default: NodePort
+  label: App Server Service Type
+  group: "Service"
+  description: "Specify App Server Service Type."
+  required: true
+  type: enum
+  options:
+  - "LoadBalancer"
+  - "NodePort"
+
+- variable: server.service.loadBalancerIP
+  type: string
+  description: "Set load balancer static IP for service, IP should be within VIP address pool."
+  label: Static Virtual IP
+  show_if: "server.service.type=LoadBalancer"
+  required: true
+  group: "Service"
+
+- variable: server.service.nodePortHttp
+  default: 30080
+  type: int
+  min: 30000
+  max: 32767
+  description: "Specify App Http NodePort Number (30000-32767)."
+  label: App Http NodePort Number
+  show_if: "server.service.type=NodePort"
+  group: "Service"
+  required: true
+
+
+- variable: server.service.nodePortHttps
+  default: 30443
+  type: int
+  min: 30000
+  max: 32767
+  description: "Specify App Https NodePort Number (30000-32767)."
+  label: App Https NodePort Number
+  show_if: "server.service.type=NodePort"
+  group: "Service"
+  required: true
+
+
+## HA mode
+- variable: redis-ha.enabled
+  label: Enables Redis HA
+  group: "HA mode"
+  description: "Enables the Redis HA subchart and disables the custom Redis single node deployment"
+  type: boolean
+
+### controller
+- variable: controller.replicas
+  default: 1
+  type: int
+  label: Number of Application Controller Pods in HA mode
+  description: "The Number of Application Controller Pods to Run in HA mode."
+  show_if: "redis-ha.enabled=true"
+  required: true
+  group: "HA mode"
+  
+### server - autoscaling
+- variable: server.autoscaling.enabled
+  type: boolean
+  label: Enable Autoscaler in Argo CD server
+  description: "Enable Horizontal Pod Autoscaler (HPA) for the Argo CD server."
+  show_if: "redis-ha.enabled=true"
+  group: "HA mode"
+
+### server - minReplicas
+- variable: server.autoscaling.minReplicas
+  default: 2
+  type: int
+  label: Minimum Replicas in Argo CD server
+  description: "Minimum number of replicas for the Argo CD server HPA."
+  show_if: "redis-ha.enabled=true"
+  required: true
+  group: "HA mode"
+  
+### repoServer - autoscaling
+- variable: repoServer.autoscaling.enabled
+  type: boolean
+  label: Enable Autoscaler in Argo CD Repo server
+  description: "Enable Horizontal Pod Autoscaler (HPA) for the Argo CD Repo server."
+  show_if: "redis-ha.enabled=true"
+  group: "HA mode"
+
+### repoServer - minReplicas
+- variable: repoServer.autoscaling.minReplicas
+  default: 2
+  type: int
+  label: Minimum Replicas in Argo CD Repo server
+  description: "Minimum number of replicas for the Argo CD Repo server HPA."
+  show_if: "redis-ha.enabled=true"
+  required: true
+  group: "HA mode"
+  
+### applicationSet
+- variable: applicationSet.replicaCount
+  default: 2
+  type: int
+  label: Number of ApplicationSet Controller Pods in HA mode
+  description: "The number of ApplicationSet controller pods to run."
+  show_if: "redis-ha.enabled=true"
+  required: true
+  group: "HA mode"
+  
+## repo server
+## applicationset
+## Global Configs  - notification
+- variable: global.logging.format
+  default: text
+  label: App Logging Format
+  group: "Notification"
+  description: "Specify App Logging Format"
+  required: true
+  type: enum
+  options:
+  - "text"
+  - "json"
+
+- variable: global.logging.level
+  default: info
+  label: App Logging Level
+  group: "Notification"
+  description: "Specify App Logging Level"
+  required: true
+  type: enum
+  options:
+  - "debug"
+  - "info"
+  - "warn"
+  - "error"
+
